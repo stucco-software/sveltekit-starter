@@ -54,3 +54,12 @@ This file resolves to a JSON object:
 
 This Client ID is used to determine valid redirect URLs for security purposes, and must be accessible from the network. Stucco Software is happy to create and host this client ID for you during development.
 
+## How Authentication Works
+
+Authentication in this application is split between Client and Server. A user's Session and auth credentials are entirely managed in the client, and never sent to the Server. This means that the server is unable to make requests on the users behalf, and these requests must be made from the client.
+
+However, CAN validate the any given request comes from a given user. This means that the serve can make reqeusts to it's own data store provider privatrely from the client. This is useful for handling things like "Does this user have an active subscription to this app?"
+
+It's kinda weird, but it works!
+
+

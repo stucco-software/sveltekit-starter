@@ -1,5 +1,5 @@
 <script>
-  import { redirect } from "@sveltejs/kit"
+  import { goto } from "$app/navigation"
   import {onMount} from 'svelte'
   import {
     EVENTS,
@@ -7,20 +7,36 @@
     handleIncomingRedirect
    } from '@inrupt/solid-client-authn-browser'
   import { serverValidation } from '$lib/utils.js'
+  import { setSession } from "$lib/session.svelte.js"
 
   let session
 
-  onMount(async () =>{
-    await handleIncomingRedirect({
-      restorePreviousSession: true
-    })
+  onMount(async () => {
+    // This needs to be called when the redirect page loads.
+    // However, since we need to call this when the app starts
+    // in order to resuem sessions between reloads,
+    // this is being called in the `hooks.client.js` init fn.
+    // await handleIncomingRedirect({
+    //   restorePreviousSession: true
+    // })
+
     session = getDefaultSession()
     session.events.on(EVENTS.SESSION_RESTORED, (url) => {
-      redirect(url)
+      console.log(EVENTS.SESSION_RESTORED, url)
+      setSession(session)
+      goto(url)
     })
 
-    const payload = await serverValidation(session)
-    console.log(payload)
+    console.log(`SET SESSION!`)
+    setSession(session)
+    goto( '/')
+
+    // We can validate our session on the server
+    // So our server knows who is at the other end
+    // of any given request.
+    // See /lib/auth.js for more!
+    // const payload = await serverValidation(session)
+    // console.log(payload)
   })
 
 </script>
