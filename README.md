@@ -4,6 +4,8 @@ This is a starter repo for building a Stucco Software application using SvelteKi
 
 ## Getting Started
 
+This repo needs to use Node v^20.0.0. No more, no less.
+
 ```
 ❯ cp .env.example .env
 ❯ npm run dev
