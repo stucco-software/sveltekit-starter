@@ -12,7 +12,6 @@
         graph: `sveltekit-demo-graph`
       })
     }
-
   })
 
 </script>

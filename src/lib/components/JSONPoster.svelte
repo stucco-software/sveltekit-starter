@@ -3,12 +3,15 @@
 
   const { db } = $props()
 
-  let kvs = $state([[null, null, null]])
+  let initialState = [[null, null, null]]
+  let kvs = $state(initialState)
 
   const addKV = () => {
     kvs = [...kvs, [null, null]]
   }
+
   let id = `urn:uuid:${crypto.randomUUID()}`
+
   let json = $derived.by(() => {
     let object = kvs.reduce((acc, cur) => {
       if (cur[0] && cur[1]) {
@@ -22,8 +25,12 @@
   })
 
 
+  const reloadGraph = new Event("reloadGraph")
   const create = async () => {
     let ref = await db.post(json)
+    document.dispatchEvent(reloadGraph)
+    kvs = initialState
+    id = `urn:uuid:${crypto.randomUUID()}`
   }
 </script>
 
@@ -45,12 +52,13 @@
       <td></td>
       <td></td>
       <td>
-        <button onclick={addKV}>
-          Add Key/Value Pair
-        </button>
+        <form action="/" onsubmit={addKV}>
+          <button>
+            Add Key/Value Pair
+          </button>
+        </form>
       </td>
     </tr>
-
   </tfoot>
 </table>
 

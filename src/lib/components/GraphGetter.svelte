@@ -14,7 +14,13 @@
 
   onMount(async () => {
     graph = await getGraph(db)
-    console.log(graph)
+    document.addEventListener(
+      "reloadGraph",
+      async (e) => {
+        graph = await getGraph(db)
+      },
+      false,
+    )
   })
 
 </script>
