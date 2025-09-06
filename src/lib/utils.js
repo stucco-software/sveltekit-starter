@@ -67,6 +67,7 @@ export const castLiteral = (type, lit) => {
   return result
 }
 
+// I forgot why I needed this.
 export const typeValue = (o) => {
   let literal = o.value.replace(context['@base'], '')
   let v
@@ -85,12 +86,13 @@ export const typeValue = (o) => {
   return v
 }
 
+// I also forget why I needed this.
+export const ns = (p) => `<${context['@base']}${context['@vocab']}${p}>`
+export const sub = (id) => `<${context['@base']}${id}>`
+
+// This thing tho, a classic of the genre.
 export const arrayify = target => target
   ? Array.isArray(target)
     ? target
     : [target]
   : []
-
-export const ns = (p) => `<${context['@base']}${context['@vocab']}${p}>`
-
-export const sub = (id) => `<${context['@base']}${id}>`

@@ -1,9 +1,8 @@
 <script>
 	import favicon from '$lib/assets/favicon.svg';
 	import { clientSession } from "$lib/session.svelte.js"
-	import {onMount} from 'svelte'
+	import { onMount } from 'svelte'
 	let { children } = $props();
-
 </script>
 
 <svelte:head>
@@ -12,7 +11,7 @@
 
 <nav>
 	<a href="/">Home</a>
-	{clientSession.data?.info?.isLoggedIn}
+
 	{#if clientSession.data?.info?.isLoggedIn}
 		<a href="/">Log Out</a>
 	{:else}

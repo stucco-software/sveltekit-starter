@@ -1,36 +1,41 @@
 <script>
   import JSONRow from "$lib/components/JSONRow.svelte"
 
-  const { db } = $props()
+  const reloadGraph = new Event("reloadGraph")
+  const { db, graph } = $props()
+  const newRow = () => [
+    ['@id', `urn:uuid:${crypto.randomUUID()}, 'ID'`]
+  ]
 
-  let initialState = [[null, null, null]]
-  let kvs = $state(initialState)
-
+  let kvs = $state(newRow())
   const addKV = () => {
-    kvs = [...kvs, [null, null]]
+    kvs = [...kvs, [null, null, null]]
   }
 
-  let id = `urn:uuid:${crypto.randomUUID()}`
-
+  // Turns an array of key:values into a JSON object.
+  // TKTK turn this into a function with like, unit tests.
   let json = $derived.by(() => {
     let object = kvs.reduce((acc, cur) => {
+      // Yes I know this is painful to look at…
+      // take an object `acc`
+      // if we have a key and a value
       if (cur[0] && cur[1]) {
-        acc[cur[0]] = cur[1]
+        // we want to re-assign the key on the object
+        acc[cur[0]] = acc[cur[0]]
+          // if the key exists, add the value to an array of extant values
+          ? [...acc[cur[0]], cur[1]]
+          // otherwise just assign the key to the value
+          : cur[1]
       }
       return acc
-    }, {
-      '@id': id
-    })
+    }, {})
     return object
   })
 
-
-  const reloadGraph = new Event("reloadGraph")
   const create = async () => {
     let ref = await db.post(json)
+    kvs = newRow()
     document.dispatchEvent(reloadGraph)
-    kvs = initialState
-    id = `urn:uuid:${crypto.randomUUID()}`
   }
 </script>
 
@@ -44,7 +49,7 @@
   </thead>
   <tbody>
     {#each kvs as kv, i}
-      <JSONRow bind:kvs={kvs} i={i}></JSONRow>
+      <JSONRow graph={graph} bind:kvs={kvs} i={i}></JSONRow>
     {/each}
   </tbody>
   <tfoot>

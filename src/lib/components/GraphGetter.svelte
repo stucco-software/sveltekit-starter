@@ -1,33 +1,14 @@
 <script>
-  import { onMount } from 'svelte'
-  const { db } = $props()
-
-  let graph = $state([])
-
-  const getGraph = async (db) => {
-    let response = await db.getAll()
-    let nodes = response['@graph']
-      ? response['@graph']
-      : [response]
-    return nodes
-  }
-
-  onMount(async () => {
-    graph = await getGraph(db)
-    document.addEventListener(
-      "reloadGraph",
-      async (e) => {
-        graph = await getGraph(db)
-      },
-      false,
-    )
-  })
-
+  const { graph } = $props()
 </script>
 
-{#each graph as node}
-<pre><code>{JSON.stringify(node, null, 2)}</code></pre>
-{/each}
+{#await graph}
+  <mark>loading…</mark>
+{:then nodes}
+  {#each nodes as node}
+    <pre><code>{JSON.stringify(node, null, 2)}</code></pre>
+  {/each}
+{/await}
 
 <style>
   pre {

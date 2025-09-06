@@ -6,19 +6,18 @@
   } from '$env/static/public'
   import {
     login,
-    getDefaultSession } from '@inrupt/solid-client-authn-browser'
+    getDefaultSession
+  } from '@inrupt/solid-client-authn-browser'
 
   let { data } = $props()
 
   const startLogin = async () => {
-    // if (!getDefaultSession().info.isLoggedIn) {
-      await login({
-        clientId: PUBLIC_CLIENT_ID,
-        redirectUrl: `${PUBLIC_HOST}auth/confirm`,
-        oidcIssuer: PUBLIC_PROVIDER,
-        clientName: "Stucco Data Collective"
-      })
-    // }
+    await login({
+      clientId: PUBLIC_CLIENT_ID,
+      redirectUrl: `${PUBLIC_HOST}auth/confirm`,
+      oidcIssuer: PUBLIC_PROVIDER,
+      clientName: "Stucco Data Collective"
+    })
   }
 
 </script>
@@ -33,7 +32,7 @@
   No account? <a href="https://solidid.stucco.software/account/create">create one for free</a> or learn more about <a href="/docs/solidid">SolidID</a>.
 </p>
 
-<!-- TK! -->
+<!-- TK! Just pass the other provider as a param to startLogin -->
 <!-- <h2>With Other Provider</h2>
 <p>
   This app works with any Solid Pod provider.

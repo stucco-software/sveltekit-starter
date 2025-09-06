@@ -1,6 +1,7 @@
 <script>
-  let { kvs, i } = $props()
+  let { graph, kvs, i } = $props()
   let type = $state('String')
+  $inspect(graph)
 </script>
 
 <tr>
@@ -24,8 +25,14 @@
       <input bind:checked={kvs[i][1]} type="checkbox" name="key">
     {/if}
     {#if type === '@id'}
-      <select>
-        <option>tktk</option>
+      <select bind:value={kvs[i][1]} name="key">
+        {#await graph}
+          <option>loading…</option>
+        {:then nodes}
+          {#each nodes as node}
+            <option value={node["@id"]}>{node["@id"]}</option>
+          {/each}
+        {/await}
       </select>
     {/if}
   </td>
