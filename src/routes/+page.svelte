@@ -10,21 +10,13 @@
 
   const reloadGraph = new Event("reloadGraph")
 
-  const getNodes = async (db) => {
-    if (!db) {
-      return []
-    }
-    let nodes = await db.getAll()
-    return nodes
-  }
-
   let graph = $derived.by(async () => {
-    let nodes = await getNodes(db)
+    let nodes = db ? await db.getAll() : []
     return nodes
   })
 
   const updateGraph = async () => {
-    graph = await getNodes(db)
+    graph = await db.getAll()
   }
 
   onMount(async () => {

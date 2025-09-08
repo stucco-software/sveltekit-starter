@@ -17,7 +17,6 @@ export const context = {
   "Double": "http://www.w3.org/2001/XMLSchema#double",
   "Float": "http://www.w3.org/2001/XMLSchema#float",
   "Integer": "http://www.w3.org/2001/XMLSchema#integer",
-
 }
 
 export const contextualize = (doc) => {
