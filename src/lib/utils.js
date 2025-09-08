@@ -11,7 +11,13 @@ export const serverValidation = async (session) => {
 
 export const context = {
   "@base": "https://vocab.rdf.systems/",
-  "@vocab": "#"
+  "@vocab": "#",
+  "Boolean": "http://www.w3.org/2001/XMLSchema#boolean",
+  "String": "http://www.w3.org/2001/XMLSchema#string",
+  "Double": "http://www.w3.org/2001/XMLSchema#double",
+  "Float": "http://www.w3.org/2001/XMLSchema#float",
+  "Integer": "http://www.w3.org/2001/XMLSchema#integer",
+
 }
 
 export const contextualize = (doc) => {

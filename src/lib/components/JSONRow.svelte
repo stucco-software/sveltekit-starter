@@ -1,6 +1,6 @@
 <script>
   let { graph, kvs, i } = $props()
-  let type = $state('String')
+  let type = $state(kvs[i][2] || 'String')
   $inspect(graph)
 </script>
 
@@ -8,6 +8,7 @@
   <td><input bind:value={kvs[i][0]} type="text" name="key"></td>
   <td>
     <select bind:value={type}>
+      <option value="ID">@id</option>
       <option value="String">String</option>
       <option value="Number">Number</option>
       <option value="Boolean">Boolean</option>
@@ -15,6 +16,9 @@
     </select>
   </td>
   <td>
+    {#if type === 'ID'}
+      <input bind:value={kvs[i][1]} type="text" name="key">
+    {/if}
     {#if type === 'String'}
       <input bind:value={kvs[i][1]} type="text" name="key">
     {/if}

@@ -1,10 +1,12 @@
 <script>
   import JSONRow from "$lib/components/JSONRow.svelte"
-
+  import {
+    arrayify
+  } from '$lib/utils.js'
   const reloadGraph = new Event("reloadGraph")
   const { db, graph } = $props()
   const newRow = () => [
-    ['@id', `urn:uuid:${crypto.randomUUID()}, 'ID'`]
+    ['@id', `urn:uuid:${crypto.randomUUID()}`, 'ID']
   ]
 
   let kvs = $state(newRow())
@@ -16,19 +18,22 @@
   // TKTK turn this into a function with like, unit tests.
   let json = $derived.by(() => {
     let object = kvs.reduce((acc, cur) => {
+      console.log(cur)
       // Yes I know this is painful to look at…
       // take an object `acc`
       // if we have a key and a value
-      if (cur[0] && cur[1]) {
+      if (cur[0]) {
         // we want to re-assign the key on the object
         acc[cur[0]] = acc[cur[0]]
           // if the key exists, add the value to an array of extant values
-          ? [...acc[cur[0]], cur[1]]
+          ? [...arrayify(acc[cur[0]]), cur[1]]
           // otherwise just assign the key to the value
           : cur[1]
       }
+
       return acc
     }, {})
+    console.log(object)
     return object
   })
 

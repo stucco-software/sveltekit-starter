@@ -63,7 +63,12 @@ const podPersister = (config) => {
         headers: headers
       })
       let json = await response.json()
-      return json
+      let comp = await compact(json)
+      if (comp['@graph']) {
+        return comp['@graph']
+      } else {
+        return [comp]
+      }
     }
   }
 }
