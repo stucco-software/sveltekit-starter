@@ -1,5 +1,6 @@
 <script>
   import { goto } from "$app/navigation"
+  import SolidState from "solidstate-kv"
   import {onMount} from 'svelte'
   import {
     EVENTS,
@@ -7,7 +8,11 @@
     handleIncomingRedirect
    } from '@inrupt/solid-client-authn-browser'
   import { serverValidation } from '$lib/utils.js'
-  import { setSession } from "$lib/session.svelte.js"
+  import {
+    setSession,
+    setDB,
+    setGraph
+  } from "$lib/session.svelte.js"
 
   let session
 
@@ -29,6 +34,13 @@
 
     console.log(`SET SESSION!`)
     setSession(session)
+    let db = SolidState({
+      session: session,
+      graph: `sveltekit-demo-graph`
+    })
+    setDB(db)
+    let graph = await db.getAll()
+    setGraph(graph)
     goto( '/')
 
     // We can validate our session on the server

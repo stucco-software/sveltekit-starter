@@ -5,32 +5,6 @@
   import JSONPoster from '$lib/components/JSONPoster.svelte'
   import GraphGetter from '$lib/components/GraphGetter.svelte'
   import NodeUpdater from '$lib/components/NodeUpdater.svelte'
-
-  let db = $state(null)
-
-  const reloadGraph = new Event("reloadGraph")
-
-  let graph = $derived.by(async () => {
-    let nodes = db ? await db.getAll() : []
-    return nodes
-  })
-
-  const updateGraph = async () => {
-    graph = await db.getAll()
-  }
-
-  onMount(async () => {
-    document.addEventListener('reloadGraph', updateGraph, false)
-  })
-
-  $effect(() => {
-    if (clientSession.data?.info?.isLoggedIn) {
-      db = SetupDB({
-        session: clientSession,
-        graph: `sveltekit-demo-graph`
-      })
-    }
-  })
 </script>
 
 <div class="container">
@@ -41,16 +15,16 @@
 
   <p>This starter kit uses SvelteKit server endpoints to validate a user against the applicatins internal store for persmissions and access control.</p>
 
-  {#if db}
+  {#if clientSession.data?.info?.isLoggedIn}
     <h2>
       Create
     </h2>
-    <JSONPoster bind:db={db} bind:graph={graph}/>
+    <JSONPoster />
 
     <h2>
       Read
     </h2>
-    <GraphGetter bind:graph={graph}/>
+    <GraphGetter />
   {:else}
     <blockquote>
       <a href="/auth">Log in</a> to get started.

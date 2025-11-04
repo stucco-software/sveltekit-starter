@@ -4,9 +4,9 @@
     PUBLIC_HOST,
     PUBLIC_PROVIDER
   } from '$env/static/public'
+
   import {
-    login,
-    getDefaultSession
+    login
   } from '@inrupt/solid-client-authn-browser'
 
   let { data } = $props()

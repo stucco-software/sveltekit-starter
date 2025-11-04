@@ -1,12 +1,17 @@
 <script>
-  const { graph } = $props()
+  import {
+    graph
+  } from "$lib/session.svelte.js"
+
+  import GraphNode from "$lib/components/GraphNode.svelte"
+  console.log(graph)
 </script>
 
-{#await graph}
+{#await graph.data}
   <mark>loading…</mark>
 {:then nodes}
   {#each nodes as node}
-    <pre><code>{JSON.stringify(node, null, 2)}</code></pre>
+    <GraphNode node={node} />
   {/each}
 {/await}
 

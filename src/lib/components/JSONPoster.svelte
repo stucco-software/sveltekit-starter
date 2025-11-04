@@ -3,10 +3,13 @@
   import {
     arrayify
   } from '$lib/utils.js'
+  import {
+    getDB,
+    graph
+  } from "$lib/session.svelte.js"
 
   const reloadGraph = new Event("reloadGraph")
-
-  const { db, graph } = $props()
+  const db = getDB()
 
   const newRow = () => [
     ['@id', `urn:uuid:${crypto.randomUUID()}`, 'ID']
